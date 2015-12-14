@@ -30,9 +30,9 @@ try {
         return new PdoMysql(
             array(
                 "host" => "localhost",
-                "username" => "root",
+                "username" => "edvardhua",
                 "password" => "",
-                "dbname" => "new-encounter"
+                "dbname" => "encounter"
             )
         );
     });

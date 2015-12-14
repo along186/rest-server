@@ -13,7 +13,7 @@ class ControllerBase extends Controller
         $response->setContent($content);
         $response->setHeader('Content-type', 'application/json');
         $response->setHeader('api-version','1.0');
-
+        
         $response->setJsonContent($data);
         
         return $response;

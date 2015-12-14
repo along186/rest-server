@@ -11,84 +11,29 @@ use Phalcon\Http\Response;
 class UserController extends ControllerBase
 {
 
+    /**
+     * @link https://docs.phalconphp.com/en/latest/reference/controllers.html#request-and-response
+     * @link https://docs.phalconphp.com/en/latest/reference/phql.html
+     * 
+     **/
     public function login()
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-        $model_user = new Users();
-        $user = $model_user->login($username, $password);
-
-        if(false == $user){
-            parent::response(array(
+        $model_user = new User();
+        $result = $model_user->login($username, $password);
+        
+        if(false == $result){
+            return parent::response(array(
                 'status' => 'ERROR',
                 'messages' => "Access is not authorized"
             ),401,"Access is not authorized");
-        }else
-            return parent::response($user);
-    }
-
-    /**
-     * @link https://docs.phalconphp.com/en/latest/reference/controllers.html#request-and-response
-     * @return Response
-     */
-    public function login2()
-    {
-        $name = $this->request->getPost('name');
-        $password = $this->request->getPost('password');
-
-        // @link https://docs.phalconphp.com/en/latest/reference/phql.html
-        // $user = User::find(
-        //     array(
-        //         "name" => $name,
-        //         "password" => $password
-        //     )
-        // );
-
-        // 上面那种也可以用，但是建议用下面这种
-        $phql = "SELECT * FROM Users where name = :name: and password = :password: ";
-        $users = $this->modelsManager->executeQuery($phql, array(
-            'name' => $name,
-            'password' => $password
-        ));
-
-        $data = array();
-        foreach ($users as $user) {
-            $data[] = array(
-                'id' => $user->id,
-                'name' => $user->name
-            );
+        }else{
+            // 返回的是simple对象，需要注意,如果要取某个字段，需要
+            // foreach遍历，而且需要注意，json_encode不能解析simple对象
+            
+            return parent::response($result);
         }
-
-        // 创建response
-        $response = new Response();
-        if ($users == false) {
-            $response->setStatusCode(401, "Unauthorized"); // 可以改变http code
-            $response->setContent("Access is not authorized"); // 以及定义content
-
-            // 错误的信息，从User model抛出来的
-//            $errors = array();
-//            foreach ($users->getMessages() as $message) {
-//                $errors[] = $message->getMessage();
-//            }
-
-            $response->setJsonContent(
-                array(
-                    'status' => 'ERROR',
-                    'messages' => "Access is not authorized"
-                )
-            );
-
-        } else {
-            // 默认是200，这里则不用设置
-            $response->setJsonContent(
-                array(
-                    'status' => 'FOUND',
-                    'data' => $data
-                )
-            );
-        }
-
-        return $response;
     }
 
 }
