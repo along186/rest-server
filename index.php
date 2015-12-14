@@ -30,7 +30,7 @@ try {
         return new PdoMysql(
             array(
                 "host" => "localhost",
-                "username" => "edvardhua",
+                "username" => "root",
                 "password" => "",
                 "dbname" => "encounter"
             )
@@ -43,10 +43,17 @@ try {
         echo "Singou Encounter Back End API Server";
     });
 
-    $user = new UserController();
-    // 改变post可以改变这个接口接收的请求方法
-    $app->post('/user/login', array($user, "login"));
-
+    //改变post可以改变这个接口接收的请求方法
+    //把new放在function里面, 减少不需要的实例化
+    $app->post('/User/login', function () {
+        return router('User', 'login', func_get_args());
+    });
+    
+    //TODO some api
+    $app->get('/user/info/:uid:', array($user, "getInfo"));
+    $app->post('/user/info/:uid:', array($user, "addUser"));
+    $app->put('/user/info/:uid:', array($user, "editUser"));
+    $app->delete('', array());
 
     $app->notFound(function () use ($app) {
         $app->response->setStatusCode(404, "Not Found")->sendHeaders();
@@ -56,4 +63,11 @@ try {
     $app->handle();
 } catch (Exception $e) {
     echo "Exception: ", $e->getMessage();
+}
+
+function router($controller, $action, $parameters)
+{
+    $class_name = $controller . 'Controller';
+    $controller = new $class_name;
+    return call_user_func(array($controller, $action), $parameters);
 }
