@@ -196,13 +196,13 @@ class User extends Model
             'username' => $un
         ));
         
-        // if(empty($user)){
-        //     return false;
-        // }
+        if(empty($user)){
+            return false;
+        }
         
-        // if(!password_verify($pwd, $user->password)){
-        //     return false;
-        // }
+        if(!password_verify($pwd, $user->password)){
+            return false;
+        }
         
         return $user;
     }
