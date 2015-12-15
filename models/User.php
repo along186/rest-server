@@ -1,6 +1,6 @@
 <?php
 /**
- * Model UserController
+ * Model User
  *
  * @link https://docs.phalconphp.com/en/latest/reference/models.html
  * @author Edvard
