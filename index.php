@@ -55,7 +55,7 @@ try {
     
 
     $app->notFound(function () {
-        return router('Base','response',array(false,404,'Not Found.'));
+        return router('Base', 'error', array('0001', 404));
     });
 
     $app->handle();

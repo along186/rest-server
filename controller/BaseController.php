@@ -9,10 +9,11 @@ class BaseController extends Controller
     private static $expire = 7200;
     
     private $_errors = array(
-        1000 => 'empty username',
-        1001 => 'empty password',
-        1002 => 'user dose not exist',
-        1003 => 'wrong password',
+        '0001' => 'page not found',
+        '1000' => 'empty username',
+        '1001' => 'empty password',
+        '1002' => 'user dose not exist',
+        '1003' => 'wrong password',
     );
     
     private $_statuses = array(
