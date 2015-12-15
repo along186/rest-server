@@ -8,36 +8,56 @@
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Http\Response;
 
-class UserController extends ControllerBase
+class UserController extends BaseController
 {
 
     /**
      * @link https://docs.phalconphp.com/en/latest/reference/controllers.html#request-and-response
      * @link https://docs.phalconphp.com/en/latest/reference/phql.html
-     * 
+     *
      **/
     public function login()
     {
         $username = $this->request->get('username');
         $password = $this->request->get('password');
-        
+
         $model_user = new User();
-        
+
         $result = $model_user->login($username, $password);
+<<<<<<< HEAD
         
         if(false == $result) {
             return $this->response(array(
+=======
+
+        if (false == $result) {
+            return parent::response(array(
+>>>>>>> sri/master
                 'status' => 'ERROR',
                 'message' => "Access is not authorized"
             ), 401, "Access is not authorized");
         } else {
             // 返回的是simple对象，需要注意,如果要取某个字段，需要
             // foreach遍历，而且需要注意，json_encode不能解析simple对象
+<<<<<<< HEAD
             
             return $this->response(array(
+=======
+
+
+            $model_event = new Event();
+            $orgId = $result->parent_id == null ? $result->id : $result->parent_id;
+            $event = $model_event->findFirst(array(
+                'org_id' => $orgId
+            ));
+
+            $token = parent::obtainToken($result->id, $orgId, $event->id);
+            // return parent::response($result);
+            return parent::response(array(
+>>>>>>> sri/master
                 'status' => 'SUCCESS',
                 'message' => "Login Success!"
-            ));
+            ), 200, null, $token);
         }
     }
 

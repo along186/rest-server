@@ -8,8 +8,12 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Loader;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
+<<<<<<< HEAD
 
 require __DIR__ . '/common/common.lib.php';
+=======
+use Phalcon\Http\Request;
+>>>>>>> sri/master
 
 try {
     // 加载模块
@@ -49,20 +53,25 @@ try {
     $app->post('/token', function () {
         return router('User', 'login', func_get_args());
     });
+<<<<<<< HEAD
     $app->delete('/token', function () {
+=======
+
+    $app->delete('token', function () {
+>>>>>>> sri/master
         return router('User', 'logout', func_get_args());
     });
     
 
-    $app->notFound(function () use ($app) {
-        $app->response->setStatusCode(404, "Not Found")->sendHeaders();
-        echo 'This is crazy, but this page was not found!';
+    $app->notFound(function () {
+        return router('Base','response',array(false,404,'Not Found.'));
     });
 
     $app->handle();
 } catch (Exception $e) {
     echo "Exception: ", $e->getMessage();
 }
+
 
 function router($controller, $action, $parameters)
 {
