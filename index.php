@@ -8,12 +8,8 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Loader;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
-<<<<<<< HEAD
 
 require __DIR__ . '/common/common.lib.php';
-=======
-use Phalcon\Http\Request;
->>>>>>> sri/master
 
 try {
     // 加载模块
@@ -53,12 +49,7 @@ try {
     $app->post('/token', function () {
         return router('User', 'login', func_get_args());
     });
-<<<<<<< HEAD
     $app->delete('/token', function () {
-=======
-
-    $app->delete('token', function () {
->>>>>>> sri/master
         return router('User', 'logout', func_get_args());
     });
     
@@ -72,10 +63,9 @@ try {
     echo "Exception: ", $e->getMessage();
 }
 
-
 function router($controller, $action, $parameters)
 {
     $class_name = $controller . 'Controller';
     $controller = new $class_name;
-    return call_user_func(array($controller, $action), $parameters);
+    return call_user_func_array(array($controller, $action), $parameters);
 }

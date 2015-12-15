@@ -182,16 +182,24 @@ class User extends Model
         return parent::findFirst($parameters);
     }
 
-    public function login($un, $pwd)
+    public function login($username, $password)
     {
-        $user = $this->getDetail4Uname($un);
+        if (empty($username)) {
+            return 1000;
+        }
+        
+        if (empty($password)) {
+            return 1001;
+        }
+        
+        $user = $this->getDetail4Uname($username);
         
         if(empty($user)) {
-            return false;
+            return 1002;
         }
 
-        if ($user->password != crypt($pwd, $user->password)) {
-            return false;
+        if ($user->password != crypt($password, $user->password)) {
+            return 1003;
         }
         
         return $user;
