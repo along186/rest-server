@@ -24,30 +24,21 @@ class UserController extends BaseController
         $model_user = new User();
 
         $result = $model_user->login($username, $password);
-
-        if (false == $result) {
-            return parent::response(array(
-                'status' => 'ERROR',
-                'message' => "Access is not authorized"
-            ), 401, "Access is not authorized");
-        } else {
-            // 返回的是simple对象，需要注意,如果要取某个字段，需要
-            // foreach遍历，而且需要注意，json_encode不能解析simple对象
-
-
-            $model_event = new Event();
-            $orgId = $result->parent_id == null ? $result->id : $result->parent_id;
-            $event = $model_event->findFirst(array(
-                'org_id' => $orgId
-            ));
-
-            $token = parent::obtainToken($result->id, $orgId, $event->id);
-            // return parent::response($result);
-            return parent::response(array(
-                'status' => 'SUCCESS',
-                'message' => "Login Success!"
-            ), 200, null, $token);
+        
+        if (!is_a($result, 'User')) {
+            return $this->error($result);
         }
-    }
+        
+        $model_event = new Event();
+        $orgId = $result->parent_id == null ? $result->id : $result->parent_id;
+        $event = $model_event->findFirst(array(
+            'org_id' => $orgId
+        ));
 
+        $token = $this->obtainToken($result->id, $orgId, $event->id);
+        
+        return $this->success(array(
+            'token' => $token
+        ));
+    }
 }

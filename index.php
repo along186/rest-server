@@ -8,7 +8,8 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Loader;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
-use Phalcon\Http\Request;
+
+require __DIR__ . '/common/common.lib.php';
 
 try {
     // 加载模块
@@ -43,19 +44,18 @@ try {
     $app->get('/', function () {
         echo "Singou Encounter Back End API Server";
     });
+    
 
-    //改变post可以改变这个接口接收的请求方法
-    //把new放在function里面, 减少不需要的实例化
-    $app->get('token', function () {
+    $app->post('/token', function () {
         return router('User', 'login', func_get_args());
     });
-
-    $app->delete('token', function () {
+    $app->delete('/token', function () {
         return router('User', 'logout', func_get_args());
     });
+    
 
     $app->notFound(function () {
-        return router('Base','response',array(false,404,'Not Found.'));
+        return router('Base', 'error', array('0001', 404));
     });
 
     $app->handle();
@@ -63,10 +63,9 @@ try {
     echo "Exception: ", $e->getMessage();
 }
 
-
 function router($controller, $action, $parameters)
 {
     $class_name = $controller . 'Controller';
     $controller = new $class_name;
-    return call_user_func(array($controller, $action), $parameters);
+    return call_user_func_array(array($controller, $action), $parameters);
 }
