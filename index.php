@@ -46,7 +46,7 @@ try {
     });
     
 
-    $app->post('/token', function () {
+    $app->get('/token', function () {
         return router('User', 'login', func_get_args());
     });
     $app->delete('/token', function () {
