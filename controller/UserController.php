@@ -18,8 +18,8 @@ class UserController extends ControllerBase
      **/
     public function login()
     {
-        $username = $this->request->getPost('username');
-        $password = $this->request->getPost('password');
+        $username = $this->request->get('username');
+        $password = $this->request->get('password');
         
         $model_user = new User();
         
@@ -28,7 +28,7 @@ class UserController extends ControllerBase
         if(false == $result) {
             return parent::response(array(
                 'status' => 'ERROR',
-                'messages' => "Access is not authorized"
+                'message' => "Access is not authorized"
             ), 401, "Access is not authorized");
         } else {
             // 返回的是simple对象，需要注意,如果要取某个字段，需要
@@ -37,7 +37,7 @@ class UserController extends ControllerBase
             // return parent::response($result);
             return parent::response(array(
                 'status' => 'SUCCESS',
-                'messages' => "Login Success!"
+                'message' => "Login Success!"
             ));
         }
     }
