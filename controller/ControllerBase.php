@@ -9,6 +9,11 @@ class ControllerBase extends Controller
         
     );
     
+    public function onConstruct()
+    {
+        
+    }
+    
     public function response($data = array(), $status = 200, $content = null)
     {
         $response = new Response();
@@ -21,5 +26,10 @@ class ControllerBase extends Controller
         $response->setJsonContent($data);
         
         return $response;
+    }
+    
+    private function _getAccess()
+    {
+        
     }
 }

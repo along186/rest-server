@@ -1,11 +1,12 @@
 <?php
+decode_request();
 
-if (!function_exists('decode_request')) {
-    function decode_request($json) {
-        foreach (json_decode($json, true) as $key => $value) {
-            if (empty($_POST[$key])) {
-                $_POST[$key] = $value;
-            }
-        }
+function decode_request()
+{
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
+    
+    foreach ($data as $key => $value) {
+        $_REQUEST[$key] = $value;
     }
 }

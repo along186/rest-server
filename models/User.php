@@ -177,10 +177,10 @@ class User extends Model
      * @param mixed $parameters
      * @return User
      */
-    // public static function findFirst($parameters = null)
-    // {
-    //     return parent::findFirst($parameters);
-    // }
+    public static function findFirst($parameters = null)
+    {
+        return parent::findFirst($parameters);
+    }
 
     public function login($un, $pwd)
     {
@@ -193,11 +193,6 @@ class User extends Model
         if ($user->password != crypt($pwd, $user->password)) {
             return false;
         }
-        
-        // $phql = "SELECT * FROM User where username = :username: limit 1";
-        // $user = $this->modelsManager->executeQuery($phql, array(
-        //     'username' => $un
-        // ));
         
         return $user;
     }
