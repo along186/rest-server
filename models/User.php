@@ -184,33 +184,28 @@ class User extends Model
 
     public function login($un, $pwd)
     {
-        // $user = $this->getDetail4Uname($un);
+        $user = $this->getDetail4Uname($un);
+        
+        if(empty($user)) {
+            return false;
+        }
 
-        // if (!password_verify($pwd, $user->password)) {
-        //     return false;
-        // }
-        // return $user;
-        
-        $phql = "SELECT * FROM User where username = :username: limit 1";
-        $user = $this->modelsManager->executeQuery($phql, array(
-            'username' => $un
-        ));
-        
-        if(empty($user)){
+        if ($user->password != crypt($pwd, $user->password)) {
             return false;
         }
         
-        if(!password_verify($pwd, $user->password)){
-            return false;
-        }
+        // $phql = "SELECT * FROM User where username = :username: limit 1";
+        // $user = $this->modelsManager->executeQuery($phql, array(
+        //     'username' => $un
+        // ));
         
         return $user;
     }
 
-    // public function getDetail4Uname($username)
-    // {
-    //     return $this->findFirst(array(
-    //         'username' => $username
-    //     ));
-    // }
+    public function getDetail4Uname($username)
+    {
+        return $this->findFirst(array(
+            'username' => $username
+        ));
+    }
 }
