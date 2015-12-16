@@ -46,11 +46,19 @@ try {
     });
     
 
-    $app->post('/token', function () {
+    $app->get('/token', function () {
         return router('User', 'login', func_get_args());
     });
     $app->delete('/token', function () {
         return router('User', 'logout', func_get_args());
+    });
+    
+    
+    $app->get('/lottery', function () {
+        return router('');
+    });
+    $app->post('/lottery', function () {
+        return router('');
     });
     
 
