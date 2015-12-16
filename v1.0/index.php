@@ -34,7 +34,7 @@ try {
                 "host" => "localhost",
                 "username" => "root",
                 "password" => "",
-                "dbname" => "encounter"
+                "dbname" => "new-encounter"
             )
         );
     });
