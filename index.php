@@ -53,6 +53,14 @@ try {
         return router('User', 'logout', func_get_args());
     });
     
+    
+    $app->get('/lottery', function () {
+        return router('');
+    });
+    $app->post('/lottery', function () {
+        return router('');
+    });
+    
 
     $app->notFound(function () {
         return router('Base', 'error', array('0001', 404));
